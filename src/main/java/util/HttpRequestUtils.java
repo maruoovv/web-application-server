@@ -26,6 +26,16 @@ public class HttpRequestUtils {
         return parseValues(cookies, ";");
     }
 
+    public static String parseRequestPath(String[] headers) {
+        if (headers == null || headers.length == 0) throw new IllegalArgumentException("invalid http header");
+
+        try {
+            return headers[0].split(" ")[1];
+        } catch (Exception e) {
+            throw new IllegalArgumentException("invalid http header");
+        }
+    }
+
     private static Map<String, String> parseValues(String values, String separator) {
         if (Strings.isNullOrEmpty(values)) {
             return Maps.newHashMap();

@@ -70,4 +70,24 @@ public class HttpRequestUtilsTest {
         Pair pair = HttpRequestUtils.parseHeader(header);
         assertThat(pair, is(new Pair("Content-Length", "59")));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parseRequestPath_null_header() throws Exception {
+        String[] header = null;
+        HttpRequestUtils.parseRequestPath(header);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parseRequestPath_invalid_header() throws Exception {
+        String[] header = {"GET"};
+        HttpRequestUtils.parseRequestPath(header);
+    }
+
+    @Test
+    public void parseRequestPath() throws Exception {
+        String[] header = {"GET /index.html HTTP/1.1"};
+        String requestPath = HttpRequestUtils.parseRequestPath(header);
+        assertEquals(requestPath, "/index.html");
+
+    }
 }
